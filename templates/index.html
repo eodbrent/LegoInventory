@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LEGO Inventory</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/style.css') }}">
+    <style>
+        .hidden { display: none; }
+    </style>
+</head>
+<body>
+    <h1>LEGO Inventory</h1>
+    <div class="control-container">
+        <button onclick="retrieveData()" id="retrieve">Retrieve</button>
+        <label for="retrieve">{{ 'Last Retrieved: ' + last_retrieved }}</label>
+        <button type="submit" form="sets-form">Save Changes</button>
+    </div>
+    <div class="filter-container">
+        <label>
+            <input type="checkbox" id="filter_not_owned"> Not Owned
+        </label>
+        <label>
+            <input type="checkbox" id="filter_not_built"> Not Built
+        </label>
+        <button type="button" onclick="applyFilters()">Apply Filters</button>
+    </div>
+    <form id="sets-form" method="POST" action="/update">
+        <div id="sets">
+            {% for set in sets %}
+                <div class="setblock {% if not set.owned %}not-owned{% endif %} {% if not set.built %}not-built{% endif %}">
+                    <img src="{{ url_for('static', filename='images/' + set.set_num + '.jpg') }}" alt="{{ set.name }}" width="100" height="100">
+                    <div class="set-info">
+                        <p>Name: {{ set.name }}</p>
+                        <p>Set Num: {{ set.set_num }}</p>
+                        <p>Year: {{ set.year }}</p>
+                    </div>
+                    <div class="checkboxes">
+                        <div class="checkbox-group">
+                            <label for="{{ 'chkbx_' + set.set_num + '_owned'}}">Owned:</label>
+                            <input type="checkbox" id="{{ 'chkbx_' + set.set_num + '_owned'}}" name="{{ 'chkbx_' + set.set_num + '_owned'}}" value="owned" {% if set.owned %}checked{% endif %}>
+                        </div>
+                        <div class="checkbox-group">
+                            <label for="{{ 'chkbx_' + set.set_num + '_built'}}">Built:</label>
+                            <input type="checkbox" id="{{ 'chkbx_' + set.set_num + '_built'}}" name="{{ 'chkbx_' + set.set_num + '_built'}}" value="built" {% if set.built %}checked{% endif %}>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </form>
+
+    <script>
+        function retrieveData() {
+            fetch('/retrieve')
+                .then(response => response.json())
+                .then(data => {
+                    alert(data.message);
+                    if (data.status === 'success') {
+                        location.reload();  // Reload the page to show updated data
+                    }
+                })
+                .catch(error => console.error('Error:', error));
+        }
+
+        function applyFilters() {
+            const filterNotOwned = document.getElementById('filter_not_owned').checked;
+            const filterNotBuilt = document.getElementById('filter_not_built').checked;
+            const sets = document.getElementsByClassName('setblock');
+
+            for (let i = 0; i < sets.length; i++) {
+                let show = true;
+                if (filterNotOwned && !sets[i].classList.contains('not-owned')) {
+                    show = false;
+                }
+                if (filterNotBuilt && !sets[i].classList.contains('not-built')) {
+                    show = false;
+                }
+                sets[i].style.display = show ? '' : 'none';
+            }
+        }
+    </script>
+</body>
+</html>

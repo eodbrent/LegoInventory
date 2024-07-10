@@ -1,0 +1,100 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 20px;
+    background-color: #E6CCFF;
+}
+
+h1 {
+    color: #343a40;
+    text-align: center;
+}
+
+.control-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 60%; /* Match the width of .setblock */
+    margin: 0 auto 10px auto; /* Center align and add space below */
+}
+
+.filter-container {
+    display: flex;
+    justify-content: flex-end;
+    width: 60%; /* Match the width of .setblock */
+    margin: 0 auto 20px auto; /* Center align and add space below */
+}
+
+.filter-container form {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+#sets {
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.setblock {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border: 1px solid #ddd;
+    margin: 10px 0;
+    padding: 10px;
+    background-color: white;
+    width: 60%; /* Adjust as needed */
+}
+
+.setblock img {
+    margin-right: 20px;
+}
+
+.set-info {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    flex-grow: 1;
+}
+
+.set-info p {
+    margin: 5px 0;
+}
+
+.checkboxes {
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+}
+
+.checkbox-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.checkbox-group label {
+    margin-bottom: 5px;
+}
+
+.show{
+    display: block;
+}
+
+.hide{
+    display: none;
+}
